@@ -64,8 +64,7 @@ One program and two executable modules are provided
 0.  `src/main.py` is the driver and main entry point for the program
 1.  `src/mbrot_fractal.py` is responsible for drawing images of the Mandelbrot
     set
-2.  `src/mbrot_fractal.py` draws images of the Julia set, which uses a formula
-    related to the used by the Mandelbrot set
+2.  `src/julia_fractal.py` draws images of the Julia set, which uses a slightly modified formula
 
 These programs use a simple command line syntax:
 
