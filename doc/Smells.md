@@ -48,4 +48,19 @@ Other code smells may also be identified; list them as well.
 
 ## Smells
 
-*TODO: write your report here*
+*       Where you found it (filename + line number)
+*       Copy the offensive code
+*       Explain why the smell is a problem
+*       Describe how you fixed it
+
+* Where: main.py line 11 and 18
+* Copy: ```     for i in JULIAS + MBROTS:
+        print(f"\t{i}")```
+	``` all_of_the_fractals = MBROTS
+	    all_of_the_fractals.extend(JULIAS)
+	    for i in all_of_the_fractals:
+        print(f"\t{i}")```
+* Why: Alternative Functions 
+	* Not functions, but there are two ways to iterate throught the two lists in main.py
+* Remedy: Make Julie and Mbrots lists into one list and just use for i in...
+
