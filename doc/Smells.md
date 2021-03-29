@@ -64,3 +64,147 @@ Other code smells may also be identified; list them as well.
 	* Not functions, but there are two ways to iterate throught the two lists in main.py
 * Remedy: Make Julie and Mbrots lists into one list and just use for i in...
 
+* Where: julie Fractal line 23
+* Copy: ```# Here 76 refers to the number of colors in the palette
+    for i in range(78):```
+* Why: Comment lies, magic number
+* Remedy: delete the comment, change range to len(grad) so it self documents
+
+* Where: julie fractal line 27 and 30
+* Copy: ```if abs(z) > 2:
+           return grad[i]  # The sequence is unbounded
+           z += z + # 
+TODO: One of these return statements makes the program crash sometimes
+    return grad[77]         # Else this is a bounded sequence
+    return grad[78]```
+* Why: Dead code
+* Remedy: delete z += z + c and return grad[78]
+
+* Where: julie fractal line 19
+* Copy:```global grad
+    global win
+```
+* Why: unnecessary globals
+* Remedy: Make grad a local variable to makePicture, pass in as argument everywhere else it's used
+
+Only use win in main
+
+
+* Where: julie fractal lines 55 56 159
+* Copy: all are copies of already defined globals
+* Why: dead Code
+* Remedy: delete them
+
+* Where: julie fractal line 33
+* Copy: ```getFractalConfigurationDataFromFractalRepositoryDictionary```
+* Why: ridiculous method name
+* Remedy: rename to getFractalName
+
+* Where: julie fractal line 42-46
+* Copy: ```  for key in dictionary:
+        if key in dictionary:
+            if key == name:
+                value = dictionary[key]
+                return key
+```
+* Why: clunky code
+* Remedy: rewrite to if name in dictionary, return dictionary[name]
+
+* Where: julie fractal, all over
+* Copy: random globals everywhere
+* Why: messy code, confusing to look through
+* Remedy: put all globals at top of document before deciding what to do to them
+
+* Where: julie fractal line 74
+* Copy: canvas.pack()
+* Why: dead code
+* Remedy: only call pack once
+
+* Where: julie fractal line 79
+* Copy:```    area_in_pixels = 512 * 512```
+* Why: dead code
+* Remedy: this varaible is never used
+
+* Where: julie fractal line 87
+* Copy:```    fraction = int(512 / 64)```
+* Why: dead code
+* Remedy: fraction is never used, delete it
+
+* Where: julie fractal line 131...
+* Copy:```f = {
+        'fulljulia': {
+            'centerX':     0.0,
+            'centerY':     0.0,
+            'axisLength':  4.0,
+            },
+```
+* Why: bad variable name
+* Remedy: rename f to fractalDict
+
+* Where: julie fractal line 153
+* Copy: WHITE = '#ffffff'
+* Why: bad global
+* Remedy: define white at the top of the program as a constant
+
+* Where:julie fractal line 161
+* Copy:	```b4 = time()
+    win = Tk()```
+* Why: bad variable names
+* Remedy: change b4 to before, win to window
+
+* Where: julia fractal line 156
+* Copy:```def julia_main(i):```
+* Why: ambiguous parameter
+* Remedy: rename i to fractalName
+
+* Where: julia fractal line 171
+* Copy:```    photo.write(i + ".png")```
+* Why: call photo.write twice; why are there two?
+* Remedy: delete the second one and see what happens
+
+* Where: Julia fractal line 51
+* Copy:```def makePicture(f, i, e)```
+* Why: dead parameters
+* Remedy: delete i and e from parameter list
+
+* Where: mbrot fractal line 12
+* Copy: # This color palette contains 100 color steps.
+* Why: incorrect comment, palette has 96 colors
+* Remedy: delete the unnecessary comment
+
+* Where: mbrot fractal line 13...
+* Copy: the pallete list
+* Why: it is the same as the julia palette. lots of the code is replicated
+* Remedy: combine julia and mbrot
+
+* Where: mbrot fractal line 33
+* Copy:```
+z = 0
+seven = 7.0
+TWO = sqrt(4)```
+* Why: useless code
+* Remedy: delete seven and TWO, remove math from import block
+
+* Where:
+* Copy:
+* Why:
+* Remedy:
+
+* Where:
+* Copy:
+* Why:
+* Remedy:
+
+* Where:
+* Copy:
+* Why:
+* Remedy:
+
+* Where:
+* Copy:
+* Why:
+* Remedy:
+
+
+
+
