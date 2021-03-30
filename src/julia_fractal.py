@@ -19,15 +19,13 @@ def getColorFromPalette(z):
     global grad
     global win
 
-    # Here 76 refers to the number of colors in the palette
-    for i in range(78):
+    # loop through each color in the palette
+    for i in range(len(grad) - 1):
         z = z * z + c  # Iteratively compute z1, z2, z3 ...
         if abs(z) > 2:
             return grad[i]  # The sequence is unbounded
-            z += z + c
-    # TODO: One of these return statements makes the program crash sometimes
     return grad[77]         # Else this is a bounded sequence
-    return grad[78]
+
 
 
 def getFractalConfigurationDataFromFractalRepositoryDictionary(dictionary, name):

@@ -43,7 +43,7 @@ files needed: main.py, mbrot, julia, makePicture
 - creates everything to do with Tk and PhotoImage
 - store pixels in PhotoImage
 - create png for the picture
-- 
+- this is where the color will be .put() for each pixel. 
 
 
 # 2.  Functional Examples
