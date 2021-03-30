@@ -1,48 +1,49 @@
-*Replace the bold text with your own content*
-
-*Adapted from https://htdp.org/2020-5-6/Book/part_preface.html*
 
 # 0.  From Problem Analysis to Data Definitions
 
-**Problem Analysis is the process of understanding the problem the software
-will address and to document in detail what the software system needs to do.
-In the real world this phase demands close interaction between developers and
-the client.  Ideally, end-users of the system are interviewed for their input.**
+files needed: main.py, mbrot, julia, makePicture
 
-**In this course you will receive detailed requirements in the form of the
-assignment description.  I stand-in for the client and end-users when you have
-questions concerning their needs and desires.**
-
-**In this phase of the design process you should use [The Feynman
-Technique](https://www.youtube.com/watch?v=tkm0TNFzIeg) To ensure that you
-understand what is being asked of you.**
-
-**The output of this phase of the development process is a restatement of the
-requirements in your own words.  Putting new problems into your own words will
-help you identify your "Known knowns" and your "known unknowns".**
-
-**As part of your restatement of the problem identify information that must be
-represented and decide how to represent in the chosen programming language.**
-
-**Formulate data definitions and illustrate them with examples.**
-
-
+- main will have a list or dictionary of the different fractal types
+- depending on what name is entered into the command line, either mbrot class or julia class will be called
+- each will have an iterative function, returns a number that is then sent to a function to choose a pixel color
+- the color of the pixel function will return a color value to the paint/makepicture function
+- the paint function will put the color on the specific pixel
+- Update will show one row at a time
+ 
 # 1.  System Analysis
 
-**Analyze the flow of data throughout the program.  Does the program get input
-from the user?  If so, does it come from interactive prompts or from
-command-line arguments?  Is data incorporated from a file on the disk, from a
-database or from the internet?**
+## Main Class
+- Import mandelbrot and julia
+- contains if checks for command line arguments, import FracInfo to get the dictionary 
+- sends sys.argv[1] to whichever fractal is appropriate
 
-**How is output given?  On the screen in the form of text or graphics?  Are
-output files created, and what form do they take?**
+## FractalInformation Class
+- defins the dictionary with the fractal names and important info
+- getDictionary will return the dictionary
+- getFractal will return one of the fractals with its info
 
-**Identify the non-trivial formulas you need to create.  If there aren't any then
-state "no formulas" in this section.**
+## Mandelbrot Class
+- given a complex number determined from which fractal is being used
+- returns the iteration from 0 to  size of the palette - 1 for which iteration gives the complex bigger than 2
+- based on the computation of another complex  iteratively
+- will have an originalComplex constant = (-1, 0)
+- iterativeComplex is the one generated for each iteration
 
-**State what kind of data each desired function consumes and produces.  Formulate
-a concise description of what the function computes.  Define a stub that lives
-up to the signature.**
+## Julie Class
+- given a fractal, find the complex number that corresponds to each iteration
+- for the iteration, return what iteration gives the complez number abs(greater than 2)
+- iteration goes for as long as the size of the palette - 1
+- original complex constant = (0, 0)
+
+## Palette Class
+- has an array Palette of N colors (96 for now)
+- returns color code at index given to it (called from imagePainter
+
+## ImagePainter Class
+- creates everything to do with Tk and PhotoImage
+- store pixels in PhotoImage
+- create png for the picture
+- 
 
 
 # 2.  Functional Examples

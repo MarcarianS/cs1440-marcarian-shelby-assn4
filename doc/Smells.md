@@ -185,15 +185,58 @@ TWO = sqrt(4)```
 * Why: useless code
 * Remedy: delete seven and TWO, remove math from import block
 
-* Where:
-* Copy:
-* Why:
-* Remedy:
+* Where: mbrot fractal line 42
+* Copy: global z
+* Why: global could just be a parameter to colorOfTheOixel
+* Remedy: remove this line, add z to the parameter listhjb
 
-* Where:
-* Copy:
-* Why:
-* Remedy:
+* Where: mbrot fractal line 43
+* Copy: #z0
+* Why: TMI comment
+* Remedy: code is self documenting, obviously z is just 0
+
+* Where: mbrot fractal line 45
+* Copy: ```  global MAX_ITERATIONS
+    global i
+```
+* Why: global variables
+* Remedy: make them into parameters, i is never defined?
+
+* Where: mbrot fractal line 50
+* Copy:``` global TWO
+        if abs(z) > TWO:
+            z = float(TWO)
+            return palette[i] ```
+* Why: global and dead code
+* Remedy: remove TWO and the line defining z
+
+* Where: mbrot line 55
+* Copy:```  return palette[MAX_ITERATIONS - 1]   # Indicate a bounded sequence
+    return palette[MAX_ITERATIONS]```
+* Why: dead code
+* Remedy: delete the second return statement
+
+* Where: mbrot line 72, julia line 61
+* Copy:```    minx = fractal['centerX'] - (fractal['axisLen'] / 2.0)
+    maxx = fractal['centerX'] + (fractal['axisLen'] / 2.0)
+    miny = fractal['centerY'] - (fractal['axisLen'] / 2.0)
+    maxy = fractal['centerY'] + (fractal['axisLen'] / 2.0)
+```
+```    min = ((f['centerX'] - (f['axisLength'] / 2.0)),
+           (f['centerY'] - (f['axisLength'] / 2.0)))
+
+    max = ((f['centerX'] + (f['axisLength'] / 2.0)),
+           (f['centerY'] + (f['axisLength'] / 2.0)))```
+* Why: two ways to do the same thing. 
+* Remedy: change julia to match mbrot, remove maxy. It is never used.
+
+* Where: mbrot fractal line 97
+* Copy:```def pixelsWrittenSoFar(rows, cols):
+    pixels = rows * cols
+    print(f"{pixels} pixels have been output so far")
+    return pixels```
+* Why: dead code, the function is never used
+* Remedy: delete the function
 
 * Where:
 * Copy:
