@@ -1,5 +1,5 @@
 import unittest
-from mbrot_fractal import colorOfThePixel, palette, MAX_ITERATIONS, pixelsWrittenSoFar
+from mbrot_fractal import colorOfThePixel, palette, pixelsWrittenSoFar
 
 
 # autocmd BufWritePost <buffer> !python3 runTests.py

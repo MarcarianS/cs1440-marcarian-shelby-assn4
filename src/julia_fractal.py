@@ -6,13 +6,6 @@ import sys
 from tkinter import Tk, Canvas, PhotoImage, mainloop
 from time import time
 
-# Changes Made:
-# Get all the globals in one place, see if that changes anything
-# make GRAD into a named constant (temporary, won't be in this file forever)
-# make window a local variable (renamed from win for clarity)
-# Renamed b4 to before
-# remove the second photo.write
-# Removed canvas.pack except for the first one
 
 
 # This is the color palette, which defines the palette that images are drawn
@@ -39,6 +32,7 @@ GRAD = [
         '#003d88', '#003784', '#003181', '#002c7e', '#00277a', '#002277',
         ]
 WHITE = '#ffffff'
+IMG_SIZE = 512
 
 global photo
 
@@ -57,44 +51,24 @@ def getColorFromPalette(z, GRAD):
     return GRAD[77]         # Else this is a bounded sequence
 
 
-
-def getFractalName(dictionary, name):
-    """Make sure that the fractal configuration data repository dictionary
-    contains a key by the name of 'name'
-
-    When the key 'name' is present in the fractal configuration data repository
-    dictionary, return its value.
-
-    Return False otherwise
-    """
-    # for key in dictionary:
-    #     if key in dictionary:
-    #         if key == name:
-    #             value = dictionary[key]
-    #             return key
-    if name in dictionary:
-        return dictionary[name]
-
-
 photo = None
 
-def makePicture(f, window):
+def makePicture(fractalInfo, window):
     """Paint a Fractal image into the TKinter PhotoImage canvas.
     Assumes the image is 512x512 pixels."""
 
 
-
     # Correlate the boundaries of the PhotoImage object to the complex
     # coordinates of the imaginary plane
-    min = ((f['centerX'] - (f['axisLength'] / 2.0)),
-           (f['centerY'] - (f['axisLength'] / 2.0)))
+    min = ((fractalInfo['centerX'] - (fractalInfo['axisLength'] / 2.0)),
+           (fractalInfo['centerY'] - (fractalInfo['axisLength'] / 2.0)))
 
-    max = ((f['centerX'] + (f['axisLength'] / 2.0)),
-           (f['centerY'] + (f['axisLength'] / 2.0)))
+    max = ((fractalInfo['centerX'] + (fractalInfo['axisLength'] / 2.0)),
+           (fractalInfo['centerY'] + (fractalInfo['axisLength'] / 2.0)))
 
 
     # Display the image on the screen
-    canvas = Canvas(window, width=512, height=512, bg=WHITE)
+    canvas = Canvas(window, width=IMG_SIZE, height=IMG_SIZE, bg=WHITE)
     canvas.pack()
     # TODO: Sometimes I wonder whether some of my functions are trying to do
     #       too many different things... this is the correct part of the
@@ -103,51 +77,21 @@ def makePicture(f, window):
 
     # At this scale, how much length and height of the
     # imaginary plane does one pixel cover?
-    size = abs(max[0] - min[0]) / 512.0
+    pixSize = abs(max[0] - min[0]) / 512.0
 
-    for r in range(512, 0, -1):
-        for c in range(512):
-            x = min[0] + c * size
-            y = min[1] + r * size
+    for r in range(IMG_SIZE, 0, -1):
+        for c in range(IMG_SIZE):
+            x = min[0] + c * pixSize
+            y = min[1] + r * pixSize
             c2 = getColorFromPalette(complex(x, y), GRAD)
-            photo.put(c2, (c, 512 - r))
+            photo.put(c2, (c, IMG_SIZE - r))
         window.update()  # display a row of pixels
 
-
-# This dictionary contains the different views of the Julia set you can make
-# with this program.
-#
-# For convenience I have placed these into a dictionary so you may easily
-# switch between them by entering the name of the image you want to generate
-# into the variable 'i'.
-#
 # TODO: Maybe it would be a good idea to incorporate the complex value `c` into
-# this configuration dictionary instead of hardcoding it into this program?
-f = {
-        'fulljulia': {
-            'centerX':     0.0,
-            'centerY':     0.0,
-            'axisLength':  4.0,
-            },
-
-        'hourglass': {
-            'centerX':     0.618,
-            'centerY':     0.00,
-            'axisLength':  0.017148277367054,
-        },
-
-        'lakes': {
-            'centerX': -0.339230468501458,
-            'centerY': 0.417970758224314,
-            'axisLength': 0.164938488846612,
-            },
-
-        }
+# the configuration dictionary instead of hardcoding it into this program?
 
 
-
-
-def julia_main(i):
+def julia_main(fractalInfo, fractalName):
 
     global photo
 
@@ -155,34 +99,34 @@ def julia_main(i):
     before = time()
     window = Tk()
 
-    photo = PhotoImage(width=512, height=512)
-    makePicture(f[i], window)
+    photo = PhotoImage(width=IMG_SIZE, height=IMG_SIZE)
+    makePicture(fractalInfo, window)
 
     print(f"Done in {time() - before:.3f} seconds!", file=sys.stderr)
     # Output the Fractal into a .png image
-    photo.write(i + ".png")
-    print("Wrote picture " + i + ".png")
+    photo.write(fractalName + ".png")
+    print("Wrote picture " + fractalName + ".png")
 
     print("Close the image window to exit the program")
     # Call tkinter.mainloop so the GUI remains open
     mainloop()
 
 
-if __name__ == '__main__':
-    # Process command-line arguments, allowing the user to select their fractal
-    if len(sys.argv) < 2:
-        print("Please provide the name of a fractal as an argument")
-        for i in f:
-            print(f"\t{i}")
-        sys.exit(1)
-
-    elif sys.argv[1] not in f:
-        print(f"ERROR: {sys.argv[1]} is not a valid fractal")
-        print("Please choose one of the following:")
-        for i in f:
-            print(f"\t{i}")
-        sys.exit(1)
-
-    else:
-        fratcal_config = getFractalName(f, sys.argv[1])
-        julia_main(fratcal_config)
+# if __name__ == '__main__':
+#     # Process command-line arguments, allowing the user to select their fractal
+#     if len(sys.argv) < 2:
+#         print("Please provide the name of a fractal as an argument")
+#         for i in f:
+#             print(f"\t{i}")
+#         sys.exit(1)
+#
+#     elif sys.argv[1] not in f:
+#         print(f"ERROR: {sys.argv[1]} is not a valid fractal")
+#         print("Please choose one of the following:")
+#         for i in f:
+#             print(f"\t{i}")
+#         sys.exit(1)
+#
+#     else:
+#         # fractal_config = getFractalName(sys.argv[1])
+#         julia_main(sys.argv[1])

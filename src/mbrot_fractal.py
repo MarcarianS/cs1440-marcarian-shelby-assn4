@@ -155,19 +155,19 @@ def mbrot_main(image):
     print("Close the image window to exit the program")
     mainloop()
 
-if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Please provide the name of a fractal as an argument")
-        for i in images:
-            print(f"\t{i}")
-        sys.exit(1)
-
-    elif sys.argv[1] not in images:
-        print(f"ERROR: {sys.argv[1]} is not a valid fractal")
-        print("Please choose one of the following:")
-        for i in images:
-            print(f"\t{i}")
-        sys.exit(1)
-
-    else:
-        mbrot_main(sys.argv[1])
+# if __name__ == '__main__':
+#     if len(sys.argv) < 2:
+#         print("Please provide the name of a fractal as an argument")
+#         for i in images:
+#             print(f"\t{i}")
+#         sys.exit(1)
+#
+#     elif sys.argv[1] not in images:
+#         print(f"ERROR: {sys.argv[1]} is not a valid fractal")
+#         print("Please choose one of the following:")
+#         for i in images:
+#             print(f"\t{i}")
+#         sys.exit(1)
+#
+#     else:
+#         mbrot_main(sys.argv[1])
