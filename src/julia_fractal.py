@@ -12,6 +12,7 @@ from time import time
 # make window a local variable (renamed from win for clarity)
 # Renamed b4 to before
 # remove the second photo.write
+# Removed canvas.pack except for the first one
 
 
 # This is the color palette, which defines the palette that images are drawn
@@ -49,7 +50,7 @@ def getColorFromPalette(z, GRAD):
     c = complex(-1.0, 0.0)
 
     # loop through each color in the palette
-    for i in range(len(GRAD) - 1):
+    for i in range(len(GRAD)):
         z = z * z + c  # Iteratively compute z1, z2, z3 ...
         if abs(z) > 2:
             return GRAD[i]  # The sequence is unbounded
@@ -57,7 +58,7 @@ def getColorFromPalette(z, GRAD):
 
 
 
-def getFractalConfigurationDataFromFractalRepositoryDictionary(dictionary, name):
+def getFractalName(dictionary, name):
     """Make sure that the fractal configuration data repository dictionary
     contains a key by the name of 'name'
 
@@ -66,16 +67,18 @@ def getFractalConfigurationDataFromFractalRepositoryDictionary(dictionary, name)
 
     Return False otherwise
     """
-    for key in dictionary:
-        if key in dictionary:
-            if key == name:
-                value = dictionary[key]
-                return key
+    # for key in dictionary:
+    #     if key in dictionary:
+    #         if key == name:
+    #             value = dictionary[key]
+    #             return key
+    if name in dictionary:
+        return dictionary[name]
 
 
 photo = None
 
-def makePicture(f, i, e, window):
+def makePicture(f, window):
     """Paint a Fractal image into the TKinter PhotoImage canvas.
     Assumes the image is 512x512 pixels."""
 
@@ -97,19 +100,11 @@ def makePicture(f, i, e, window):
     #       too many different things... this is the correct part of the
     #       program to create a GUI window, right?
     canvas.create_image((256, 256), image=photo, state="normal")
-    canvas.pack()  # This seems repetitive
-    canvas.pack()  # But it is how Larry wrote it
-    canvas.pack()  # Larry's a smart guy.  I'm sure he has his reasons.
 
-    area_in_pixels = 512 * 512
-
-    canvas.pack()  # Does this even matter?
     # At this scale, how much length and height of the
     # imaginary plane does one pixel cover?
     size = abs(max[0] - min[0]) / 512.0
 
-    canvas.pack()
-    fraction = int(512 / 64)
     for r in range(512, 0, -1):
         for c in range(512):
             x = min[0] + c * size
@@ -117,9 +112,6 @@ def makePicture(f, i, e, window):
             c2 = getColorFromPalette(complex(x, y), GRAD)
             photo.put(c2, (c, 512 - r))
         window.update()  # display a row of pixels
-
-
-
 
 
 # This dictionary contains the different views of the Julia set you can make
@@ -164,13 +156,13 @@ def julia_main(i):
     window = Tk()
 
     photo = PhotoImage(width=512, height=512)
-    makePicture(f[i], i, ".png", window)
+    makePicture(f[i], window)
 
     print(f"Done in {time() - before:.3f} seconds!", file=sys.stderr)
     # Output the Fractal into a .png image
     photo.write(i + ".png")
     print("Wrote picture " + i + ".png")
-    
+
     print("Close the image window to exit the program")
     # Call tkinter.mainloop so the GUI remains open
     mainloop()
@@ -192,5 +184,5 @@ if __name__ == '__main__':
         sys.exit(1)
 
     else:
-        fratcal_config = getFractalConfigurationDataFromFractalRepositoryDictionary(f, sys.argv[1])
+        fratcal_config = getFractalName(f, sys.argv[1])
         julia_main(fratcal_config)

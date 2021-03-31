@@ -6,10 +6,13 @@
 import sys
 import time
 from tkinter import Tk, Canvas, PhotoImage, mainloop
-from math import sqrt
 
+# Got rid of useless variables seven, global TWO, z = 0
+# deleted global z definition
+# Removed global i
+# removed global palette, made into parameters for paint
 
-# This color palette contains 100 color steps.
+# This color palette contains 96 color steps.
 palette = [
         '#ffe4b5', '#ffe5b2', '#ffe7ae', '#ffe9ab', '#ffeaa8', '#ffeda4',
         '#ffefa1', '#fff29e', '#fff49a', '#fff797', '#fffb94', '#fffe90',
@@ -29,40 +32,32 @@ palette = [
         '#003d88', '#003784', '#003181', '#002c7e', '#00277a', '#002277',
         ]
 
-MAX_ITERATIONS = len(palette)
-z = 0
-seven = 7.0
-TWO = sqrt(4)
+
+
 
 
 window = None
 
 def colorOfThePixel(c, palette):
     """Return the color of the current pixel within the Mandelbrot set"""
-    global z
-    z = complex(0, 0)  # z0
-
-    global MAX_ITERATIONS
-    global i
+    z = complex(0, 0)
+    MAX_ITERATIONS = len(palette)
 
     for i in range(MAX_ITERATIONS):
         z = z * z + c  # Get z1, z2, ...
-        global TWO
-        if abs(z) > TWO:
-            z = float(TWO)
+        if abs(z) > 2:
             return palette[i]  # The sequence is unbounded
-    # XXX: one of these return statements made the program crash...
     return palette[MAX_ITERATIONS - 1]   # Indicate a bounded sequence
-    return palette[MAX_ITERATIONS]
 
 
 img = None
 
-def paint(fractals, imagename):
+
+def paint(fractals, imagename, palette):
     """Paint a Fractal image into the TKinter PhotoImage canvas.
     This code creates an image which is 640x640 pixels in size."""
 
-    global palette
+
     global img
 
     fractal = fractals[imagename]
@@ -72,7 +67,6 @@ def paint(fractals, imagename):
     minx = fractal['centerX'] - (fractal['axisLen'] / 2.0)
     maxx = fractal['centerX'] + (fractal['axisLen'] / 2.0)
     miny = fractal['centerY'] - (fractal['axisLen'] / 2.0)
-    maxy = fractal['centerY'] + (fractal['axisLen'] / 2.0)
 
     # Display the image on the screen
     canvas = Canvas(window, width=512, height=512, bg='#ffffff')
@@ -81,14 +75,12 @@ def paint(fractals, imagename):
 
     # At this scale, how much length and height on the imaginary plane does one
     # pixel take?
-    pixelsize = abs(maxx - minx) / 512
+    pixelSize = abs(maxx - minx) / 512
 
-    portion = int(512 / 64)
-    total_pixels = 1048576
     for row in range(512, 0, -1):
         for col in range(512):
-            x = minx + col * pixelsize
-            y = miny + row * pixelsize
+            x = minx + col * pixelSize
+            y = miny + row * pixelSize
             color = colorOfThePixel(complex(x, y), palette)
             img.put(color, (col, 512 - row))
         window.update()  # display a row of pixels
@@ -151,7 +143,7 @@ def mbrot_main(image):
     global window
     window = Tk()
     img = PhotoImage(width=512, height=512)
-    paint(images, image)
+    paint(images, image, palette)
 
     # Save the image as a PNG
     after = time.time()

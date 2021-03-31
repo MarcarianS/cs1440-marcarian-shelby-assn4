@@ -1,51 +1,5 @@
 # Code Smells Report
 
-## Instructions
-
-Edit this file and include it in your submission.
-
-For each instance of a code smell you find in the starter code report:
-
-*	Where you found it (filename + line number)
-*	Copy the offensive code
-*	Explain why the smell is a problem
-*	Describe how you fixed it
-
-These are the code smells that you can expect to find in the starter code.
-
-0.  Dead Code
-    * A variable, parameter, field, method or class is no longer used (usually because it is obsolete)
-1.  Magic Numbers
-    * Numeric literals that appear in critical places but without any apparent meaning
-    * "When I see the number `214` here, does it have the same meaning as the `214` over there?"
-2.  Global Variables
-    * A global is being used to avoid passing a parameter into a function
-    * A global is being used to return an extra value from a function
-3.  TMI Comments (Too Much Information)
-    * A function or method is filled with many explanatory comments
-4.  Too Long Parameter List
-    * More than three or four parameters for a method
-5.  Too Long Function/Method
-    * A method contains too many lines of code
-    * Generally, any method longer than ten lines should make you start asking questions
-6.  Complex decision trees
-    * Long or deeply nested trees of `if/elif/else`
-    * Complex `switch` operators
-7.  Shotgun Surgery
-    * Making any modifications requires that you make many small changes to many different functions/classes
-8.  Alternative Classes/Functions with Different Interfaces
-    * Two classes perform identical functions but have different method names
-    * Two functions perform identical functions but have different names
-    * Two functions perform identical functions but take different parameters
-9.  Spaghetti Code
-    * Lots of meandering code without a clear goal
-    * Many functions/objects used in inconsistent ways
-    * All code is contained in one giant function/method with huge `if/else` branches
-    * "It would be easier to rewrite this than to understand it"
-
-Other code smells may also be identified; list them as well.
-
-
 ## Smells
 
 *       Where you found it (filename + line number)
@@ -130,17 +84,6 @@ Only use win in main
 * Why: dead code
 * Remedy: fraction is never used, delete it
 
-* Where: julie fractal line 131...
-* Copy:```f = {
-        'fulljulia': {
-            'centerX':     0.0,
-            'centerY':     0.0,
-            'axisLength':  4.0,
-            },
-```
-* Why: bad variable name
-* Remedy: rename f to fractalDict
-
 * Where: julie fractal line 153
 * Copy: WHITE = '#ffffff'
 * Why: bad global
@@ -164,7 +107,7 @@ Only use win in main
 
 * Where: Julia fractal line 51
 * Copy:```def makePicture(f, i, e)```
-* Why: dead parameters
+* Why: dead parameter
 * Remedy: delete i and e from parameter list
 
 * Where: mbrot fractal line 12
@@ -175,7 +118,7 @@ Only use win in main
 * Where: mbrot fractal line 13...
 * Copy: the pallete list
 * Why: it is the same as the julia palette. lots of the code is replicated
-* Remedy: combine julia and mbrot
+* Remedy: create palette class and store it there
 
 * Where: mbrot fractal line 33
 * Copy:```
@@ -200,7 +143,7 @@ TWO = sqrt(4)```
     global i
 ```
 * Why: global variables
-* Remedy: make them into parameters, i is never defined?
+* Remedy: make them into parameters, i is never defined used so delete it
 
 * Where: mbrot fractal line 50
 * Copy:``` global TWO
@@ -230,13 +173,42 @@ TWO = sqrt(4)```
 * Why: two ways to do the same thing. 
 * Remedy: change julia to match mbrot, remove maxy. It is never used.
 
-* Where: mbrot fractal line 97
-* Copy:```def pixelsWrittenSoFar(rows, cols):
+* Where: mbrot line 78
+* Copy:```    canvas = Canvas(window, width=512, height=512, bg='#ffffff')
+    canvas.pack()
+    canvas.create_image((256, 256), image=img, state="normal")
+
+    # At this scale, how much length and height on the imaginary plane does one
+    # pixel take?
+    pixelsize = abs(maxx - minx) / 512
+```
+* Why: magic numbers
+* Remedy: have a named constant WINDOW_SIZE = 512
+
+* Where: mbrot line 86
+* Copy:```  portion = int(512 / 64)
+    total_pixels = 1048576```
+* Why: dead code, never use variables
+* Remedy: delete both of them
+
+* Where: mbrot line 96
+* Copy:```
+def pixelsWrittenSoFar(rows, cols):
     pixels = rows * cols
     print(f"{pixels} pixels have been output so far")
     return pixels```
-* Why: dead code, the function is never used
-* Remedy: delete the function
+* Why: disorganised code; not immediately obvious that this is needed for the tests
+* Remedy: move the function to the testing module or delete, the test is redundant anyway.
+
+* Where: main.py line 11
+* Copy:``` for i in JULIAS + MBROTS```
+* Why: Inconsistent with rest of code
+* Remedy: for i in mbrots and julias to match the other if condition
+
+* Where: main.py line 23
+* Copy: ```fratcals = sys.argv[1]```
+* Why: dead code, never used
+* Remedy: delete it
 
 * Where:
 * Copy:
