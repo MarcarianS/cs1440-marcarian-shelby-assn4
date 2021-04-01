@@ -1,5 +1,8 @@
 class Palette:
     def __init__(self):
+        # This is the palette to work with, there are 96 colors
+        # TODO: It would be nice to add more or different colors to this list, but it's
+        # just so much work to calculate all of the in-between shades!
         self.__palette = [
                         '#ffe4b5', '#ffe5b2', '#ffe7ae', '#ffe9ab', '#ffeaa8', '#ffeda4',
                         '#ffefa1', '#fff29e', '#fff49a', '#fff797', '#fffb94', '#fffe90',

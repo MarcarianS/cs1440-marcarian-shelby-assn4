@@ -10,7 +10,7 @@ class FractalInformation:
                                     'z': complex(-1.0, 0.0),
                                     'centerX':     0.0,
                                     'centerY':     0.0,
-                                    'axisLength':  4.0,
+                                    'axisLen':  4.0,
                                     },
 
                                 'hourglass': {
@@ -18,7 +18,7 @@ class FractalInformation:
                                     'z': complex(-1.0, 0.0),
                                     'centerX':     0.618,
                                     'centerY':     0.00,
-                                    'axisLength':  0.017148277367054,
+                                    'axisLen':  0.017148277367054,
                                 },
 
                                 'lakes': {
@@ -26,7 +26,7 @@ class FractalInformation:
                                     'z': complex(-1.0, 0.0),
                                     'centerX': -0.339230468501458,
                                     'centerY': 0.417970758224314,
-                                    'axisLength': 0.164938488846612,
+                                    'axisLen': 0.164938488846612,
                                     },
 
                                 'mandelbrot': {
