@@ -35,6 +35,16 @@ files needed: main.py, mbrot, julia, makePicture
 - iteration goes for as long as the size of the palette - 1
 - original complex constant = (0, 0)
 
+### GetComplex(fractalInfo)
+* Input: dictionary for specific fractal
+* Internal Data:
+```minx = fractalInfo['centerX'] - (fractalInfo['axisLen'] / 2.0)
+    maxx = fractalInfo['centerX'] + (fractalInfo['axisLen'] / 2.0)
+    miny = fractalInfo['centerY'] - (fractalInfo['axisLen'] / 2.0)
+	pixelSize = abs(maxX - minX) / imgSize
+```
+* Output: Complex number
+
 ## Palette Class
 - has an array Palette of N colors (96 for now)
 - returns color code at index given to it (called from imagePainter
@@ -44,8 +54,23 @@ files needed: main.py, mbrot, julia, makePicture
 - store pixels in PhotoImage
 - create png for the picture
 - this is where the color will be .put() for each pixel. 
-
-
+### paint(minX, minY, pixelSize)
+```for row in imagesize counting backwards
+	for col in imagesize
+		x = minX + col * pixelSize
+		y = minY + row * pixelSize
+		color = calculateColor(complex(x, y))
+		img.put(color, (col, imageSize - row)
+```
+### calculateColor(complex)
+```
+z = complex(-1.0, 1.0) #for julia
+for i in range(palette.getSize())
+	z = z * z + complex
+	if abs(z) > 2:
+		return Palette.Palette.getColor(i)
+return palette.palette.getColor(Palette.palette.getSize() - 1)	
+```
 # 2.  Functional Examples
 
 **Design a process for obtaining the output from the input.  Consider both *good*

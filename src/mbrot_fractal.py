@@ -4,13 +4,8 @@
 
 
 import sys
-import time
+from time import time
 from tkinter import Tk, Canvas, PhotoImage, mainloop
-
-# Got rid of useless variables seven, global TWO, z = 0
-# deleted global z definition
-# Removed global i
-# removed global palette, made into parameters for paint
 
 # This color palette contains 96 color steps.
 palette = [
@@ -31,129 +26,82 @@ palette = [
         '#00649c', '#005d98', '#005695', '#004f92', '#00498e', '#00438b',
         '#003d88', '#003784', '#003181', '#002c7e', '#00277a', '#002277',
         ]
+WHITE = '#ffffff'
+IMG_SIZE = 512
 
 
 
-
-
-window = None
 
 def colorOfThePixel(c, palette):
     """Return the color of the current pixel within the Mandelbrot set"""
     z = complex(0, 0)
-    MAX_ITERATIONS = len(palette)
 
-    for i in range(MAX_ITERATIONS):
+    for i in range(len(palette)):
         z = z * z + c  # Get z1, z2, ...
         if abs(z) > 2:
             return palette[i]  # The sequence is unbounded
-    return palette[MAX_ITERATIONS - 1]   # Indicate a bounded sequence
+    return palette[len(palette) - 1]   # Indicate a bounded sequence
 
 
 img = None
 
 
-def paint(fractals, imagename, palette):
+def paint(fractalInfo, window):
     """Paint a Fractal image into the TKinter PhotoImage canvas.
-    This code creates an image which is 640x640 pixels in size."""
+    This code creates an image which is 512x512 pixels in size.
+    To change this size, change IMG_SIZE at top of file."""
 
 
     global img
 
-    fractal = fractals[imagename]
 
     # Figure out how the boundaries of the PhotoImage relate to coordinates on
     # the imaginary plane.
-    minx = fractal['centerX'] - (fractal['axisLen'] / 2.0)
-    maxx = fractal['centerX'] + (fractal['axisLen'] / 2.0)
-    miny = fractal['centerY'] - (fractal['axisLen'] / 2.0)
+    minx = fractalInfo['centerX'] - (fractalInfo['axisLen'] / 2.0)
+    maxx = fractalInfo['centerX'] + (fractalInfo['axisLen'] / 2.0)
+    miny = fractalInfo['centerY'] - (fractalInfo['axisLen'] / 2.0)
 
     # Display the image on the screen
-    canvas = Canvas(window, width=512, height=512, bg='#ffffff')
+    canvas = Canvas(window, width=IMG_SIZE, height=IMG_SIZE, bg=WHITE)
     canvas.pack()
     canvas.create_image((256, 256), image=img, state="normal")
 
     # At this scale, how much length and height on the imaginary plane does one
     # pixel take?
-    pixelSize = abs(maxx - minx) / 512
+    pixelSize = abs(maxx - minx) / IMG_SIZE
 
-    for row in range(512, 0, -1):
-        for col in range(512):
+    for row in range(IMG_SIZE, 0, -1):
+        for col in range(IMG_SIZE):
             x = minx + col * pixelSize
             y = miny + row * pixelSize
             color = colorOfThePixel(complex(x, y), palette)
-            img.put(color, (col, 512 - row))
+            img.put(color, (col, IMG_SIZE - row))
         window.update()  # display a row of pixels
+
+
+def mbrot_main(fractalInfo, fractalName):
+    global img
+    # Set up the GUI so that we can paint the fractal image on the screen
+    before = time()
+    window = Tk()
+    img = PhotoImage(width=IMG_SIZE, height=IMG_SIZE)
+    paint(fractalInfo, window)
+
+    # Save the image as a PNG
+    after = time()
+    print(f"Done in {after - before:.3f} seconds!", file=sys.stderr)
+    img.write(f"{fractalName}.png")
+    print(f"Wrote image {fractalName}.png")
+
+    # Call tkinter.mainloop so the GUI remains open
+    print("Close the image window to exit the program")
+    mainloop()
 
 
 def pixelsWrittenSoFar(rows, cols):
     pixels = rows * cols
     print(f"{pixels} pixels have been output so far")
     return pixels
-
-
-# These are the different views of the Mandelbrot set you can make with this
-# program.
-#
-# For convenience I have placed these into a dictionary so you may easily
-# switch between them by entering the name of the image you want to generate
-# into the variable 'image'.
-images = {
-        'mandelbrot': {
-            'centerX': -0.6,
-            'centerY': 0.0,
-            'axisLen': 2.5,
-            },
-
-        'spiral0': {
-            'centerX': -0.761335372924805,
-            'centerY': 0.0835704803466797,
-            'axisLen': 0.004978179931102462,
-            },
-
-        'spiral1': {
-            'centerX': -0.747,
-            'centerY': 0.1075,
-            'axisLen': 0.002,
-            },
-
-        'seahorse': {
-            'centerX': -0.745,
-            'centerY': 0.105,
-            'axisLen': 0.01,
-            },
-
-        'elephants': {
-            'centerX':  0.30820836067024604,
-            'centerY':  0.030620936230004017,
-            'axisLen':  0.03,
-            },
-
-        'leaf': {
-            'centerX': -1.543577002,
-            'centerY': -0.000058690069,
-            'axisLen':  0.000051248888,
-            },
-        }
-
-def mbrot_main(image):
-    global img
-    # Set up the GUI so that we can paint the fractal image on the screen
-    before = time.time()
-    global window
-    window = Tk()
-    img = PhotoImage(width=512, height=512)
-    paint(images, image, palette)
-
-    # Save the image as a PNG
-    after = time.time()
-    print(f"Done in {after - before:.3f} seconds!", file=sys.stderr)
-    img.write(f"{image}.png")
-    print(f"Wrote image {image}.png")
-
-    # Call tkinter.mainloop so the GUI remains open
-    print("Close the image window to exit the program")
-    mainloop()
 
 # if __name__ == '__main__':
 #     if len(sys.argv) < 2:

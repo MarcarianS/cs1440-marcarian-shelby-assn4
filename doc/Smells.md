@@ -225,10 +225,12 @@ def pixelsWrittenSoFar(rows, cols):
 * Why: Magic numbers
 * Remedy: create named constant SIZE=512
 
-# Where:
-* Copy:
-* Why:
-* Remedy:
+# Where: mbrot line 44
+* Copy:``` MAX_ITERATIONS = len(palette)
+
+    for i in range(MAX_ITERATIONS):```
+* Why: Inconsistent with julia.py
+* Remedy: delete max iterations, make it fo ri in range len(palette)
 
 # Where:
 * Copy:

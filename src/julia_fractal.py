@@ -55,7 +55,8 @@ photo = None
 
 def makePicture(fractalInfo, window):
     """Paint a Fractal image into the TKinter PhotoImage canvas.
-    Assumes the image is 512x512 pixels."""
+    Assumes the image is 512x512 pixels. To change the size of the image, change
+    IMG_SIZE at top of file."""
 
 
     # Correlate the boundaries of the PhotoImage object to the complex
@@ -102,7 +103,8 @@ def julia_main(fractalInfo, fractalName):
     photo = PhotoImage(width=IMG_SIZE, height=IMG_SIZE)
     makePicture(fractalInfo, window)
 
-    print(f"Done in {time() - before:.3f} seconds!", file=sys.stderr)
+    after = time()
+    print(f"Done in {after - before:.3f} seconds!", file=sys.stderr)
     # Output the Fractal into a .png image
     photo.write(fractalName + ".png")
     print("Wrote picture " + fractalName + ".png")
