@@ -60,6 +60,7 @@ def paint(fractalInfo, window):
     minx = fractalInfo['centerX'] - (fractalInfo['axisLen'] / 2.0)
     maxx = fractalInfo['centerX'] + (fractalInfo['axisLen'] / 2.0)
     miny = fractalInfo['centerY'] - (fractalInfo['axisLen'] / 2.0)
+    #z = fractalInfo['z']
 
     # Display the image on the screen
     canvas = Canvas(window, width=IMG_SIZE, height=IMG_SIZE, bg=WHITE)
@@ -69,6 +70,7 @@ def paint(fractalInfo, window):
     # At this scale, how much length and height on the imaginary plane does one
     # pixel take?
     pixelSize = abs(maxx - minx) / IMG_SIZE
+    #imagePainter.paint(minx, miny, pixelSize, IMG_SIZE, z)
 
     for row in range(IMG_SIZE, 0, -1):
         for col in range(IMG_SIZE):
@@ -86,7 +88,8 @@ def mbrot_main(fractalInfo, fractalName):
     window = Tk()
     img = PhotoImage(width=IMG_SIZE, height=IMG_SIZE)
     paint(fractalInfo, window)
-
+    #definePicture(fractalInfo)
+    #paint(minX, minY, pixelSize, IMG_SIZE, z)
     # Save the image as a PNG
     after = time()
     print(f"Done in {after - before:.3f} seconds!", file=sys.stderr)
