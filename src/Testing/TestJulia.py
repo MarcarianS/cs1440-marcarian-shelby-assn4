@@ -1,5 +1,5 @@
 import unittest
-from julia_fractal import getColorFromPalette, GRAD, WHITE, f, \
+from Julia import getColorFromPalette, GRAD, WHITE, f, \
     getFractalName
 
 
