@@ -2,6 +2,7 @@ import sys
 
 import julia_fractal, mbrot_fractal
 import FractalInformation
+import Julia
 
 
 FRACTALS = FractalInformation.FractalInformation().getDictionary()
@@ -22,7 +23,7 @@ elif sys.argv[1] not in FRACTALS:
 else:
 
     if FRACTALS[sys.argv[1]]['type'] == 'julia':
-        julia_fractal.julia_main(FRACTALS[sys.argv[1]], sys.argv[1])
+        Julia.Julia().julia_main(FRACTALS[sys.argv[1]], sys.argv[1])
 
     elif FRACTALS[sys.argv[1]]['type'] == 'mandelbrot':
         mbrot_fractal.mbrot_main(FRACTALS[sys.argv[1]], sys.argv[1])
