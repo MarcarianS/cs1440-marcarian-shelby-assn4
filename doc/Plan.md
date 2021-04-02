@@ -1,4 +1,18 @@
 
+# Note on Testing folder
+I'm sorry in advance, but the unit tests are a bit funky to run. I spoke with Professor
+Falor about it and spent an unhealthy amount of time trying to get them to import properly, 
+but python refuses to recognize my modules unless the tests are run in PyCharm or with 
+the command 
+```
+$ PYTHONPATH=$PWD python runTests.py
+```
+from the src directory. Not pretty, but the only solution that works (short of doing away
+with the Testing directory altogether and putting it all in src, which is not my favorite 
+solution either).
+Professor Falor told me that if I put a note
+in here that whoever ends up grading this should see it, but I am sorry for the inconvenience!
+
 # 0.  From Problem Analysis to Data Definitions
 
 files needed: main.py, mbrot, julia, makePicture
@@ -18,9 +32,10 @@ files needed: main.py, mbrot, julia, makePicture
 - sends sys.argv[1] to whichever fractal is appropriate
 
 ## FractalInformation Class
-- defins the dictionary with the fractal names and important info
+- defines the dictionary with the fractal names and important info
+	- Important info being coordinates, axis length, its constant complex number, and whether it's julia or mbrot
 - getDictionary will return the dictionary
-- getFractal will return one of the fractals with its info
+- getFractal will return one of the fractals names
 
 ## Mandelbrot Class
 - given a complex number determined from which fractal is being used
@@ -35,19 +50,10 @@ files needed: main.py, mbrot, julia, makePicture
 - iteration goes for as long as the size of the palette - 1
 - original complex constant = (0, 0)
 
-### GetComplex(fractalInfo)
-* Input: dictionary for specific fractal
-* Internal Data:
-```minx = fractalInfo['centerX'] - (fractalInfo['axisLen'] / 2.0)
-    maxx = fractalInfo['centerX'] + (fractalInfo['axisLen'] / 2.0)
-    miny = fractalInfo['centerY'] - (fractalInfo['axisLen'] / 2.0)
-	pixelSize = abs(maxX - minX) / imgSize
-```
-* Output: Complex number
-
 ## Palette Class
 - has an array Palette of N colors (96 for now)
-- returns color code at index given to it (called from imagePainter
+- getColor returns color code at index given to it 
+- getSize returns the length of the array
 
 ## ImagePainter Class
 - creates everything to do with Tk and PhotoImage
@@ -73,27 +79,84 @@ return palette.palette.getColor(Palette.palette.getSize() - 1)
 ```
 # 2.  Functional Examples
 
-**Design a process for obtaining the output from the input.  Consider both *good*
-and *bad* inputs.  Find or create examples of both kinds of input.**
+## Main:
 
-**Work out problem examples on paper, on a whiteboard or some other medium that
-is *not* your computer.  It is a mistake to begin writing executable code
-before you thoroughly understand what form the algorithm(s) must take.**
+* Input: The name of a fractal from the command line (a string)
+* Internal Data: 
+	* Import sys, FractalInformation, Julia, Mandelbrot
+	* create a fractal information object
+	* if sys.argv is shorter than 2 strings ask the user to enter a fractal name and exit the program
+	* if the user enters a name not in the fractal dict, ask them the enter a valid name and exit the program
+	* In both cases, print a list of the valid fractal names
+	* Otherwise, check if the fractal name has type julia or mandelbrot, and send it to the appropriate module.
+* Output: Nothing, just a runner class
+* Function Stub:
+```
+fractals = fractalInfo.fractalInfo.getDictionary()
+if len(sys.argv) < 2
+	print(Please give the name of a fractal)
+	for i in fractals
+		print the fractal name
+	sys.exit
+elis sys.argv[1] not in fractals:
+	print(not a valid fractal)
+	print(Please enter a valid fractal name from teh following:)
+	for i in fractals:
+		print fractal name
+	sys.exit
+else:
+	if fractals[sys.argv[1]][type] == julia:
+		Julia.Julia().juliamain(fractals[sys.argv[1]], sys.argv[1])
+	elif type == mandelbrot:
+		Mandelbrot.Mandelbrot().mbrotmain(fractals[sys,argv[1]], sys.argv[1])
+```
+## Julia and Mandelbrot
+* Import: sys, tkinter mainloop, time, ImagePainter, FractalInformation
+* global constants are imageSize=512 and white='#ffffff'
+### __makePicture(fractalInfo, image)
+* Input: fractal info is the sub dictionary of fractalInformation that has info on one specific fractal. Image is the image object
+* Internal Data: 
+	* defines minimum x and y and maximum x, which are used to find the iterative complex number
+	* defines z, which is the constant complex number
+	* calculates pixleSize
+	* Calls paint from the ImagePainter class with all the information just defined
+* Output: Nothing, just calls the ImagePainter 
+* Function Stub:
+```
+minX = fractalInfo[centerX] - fractalInfo[axisLen] / 2
+maxX = fractalInfo[centerX] + fractalInfo[axisLen] / 2
+minY = fractalInfo[centerY] - fractalInfo[axisLen] / 2
+z = fractalInfo[z]
 
-**Instead, describe components of the system in *"pseudocode"*.  Expect to make
-lots of mistakes at this point.  You will find that it is much easier to throw
-away pseudocode than real code.**
+pixelSize = abs(maxX - minX) / imageSize
+image.paint(minX, minY, PixSize, imageSize, z
+```
 
-**Manually work through several examples that illustrate the program's overall
-purpose, as well as the purpose of each component of the finished system.  You
-will converge on a correct solution much faster if you feel comfortable making
-mistakes as you go.**
+### main(fractalInfo, fractalName)
+* Input: fractalInfo is the sub dictionary containing info for one fractal, fractalName is the string form of the fractal's name.
+* Internal Data: 
+	* Creates an image painter object with the size and background determined by the global constants
+	* takes the time before and after the image is rendered
+	* calls __makePicture and prints a message when it's done
+	* calls image.writePNG to create a png file of the rendered image
+	* calls the mainloop to keep the image open
+* Output: Nothing
+* Function Stub:
+```
+image = ImagePainter.ImagePainter(imageSize, white)
 
-**This phase involves the use of many levels of abstraction to decompose the
-problem into manageable components, and design strategies for implementing each
-component.  Components may be functions, modules or classes.**
+before
+makePicture(fractalInfo, image)
+after
 
+print( done in (before - after) seconds) to sys.stderr
+image.writePNG(fractalName)
+print(wrote fractalName to fractalName.png)
 
+print(close the image window to end the program)
+
+mainloop()
+```
 # 3.  Function Template
 
 **Combine the function stubs written in step #2 with pseudocode from step #3.
