@@ -60,22 +60,14 @@ files needed: main.py, mbrot, julia, makePicture
 - store pixels in PhotoImage
 - create png for the picture
 - this is where the color will be .put() for each pixel. 
-### paint(minX, minY, pixelSize)
-```for row in imagesize counting backwards
-	for col in imagesize
-		x = minX + col * pixelSize
-		y = minY + row * pixelSize
-		color = calculateColor(complex(x, y))
-		img.put(color, (col, imageSize - row)
+### paint(index, row, col, imgsize)
 ```
-### calculateColor(complex)
+color = palette.getCOlor(index)
+img.put(color, (col, imageSize - row)
 ```
-z = complex(-1.0, 1.0) #for julia
-for i in range(palette.getSize())
-	z = z * z + complex
-	if abs(z) > 2:
-		return Palette.Palette.getColor(i)
-return palette.palette.getColor(Palette.palette.getSize() - 1)	
+### update()
+```
+window.update()
 ```
 # 2.  Functional Examples
 
@@ -113,24 +105,25 @@ else:
 ## Julia and Mandelbrot
 * Import: sys, tkinter mainloop, time, ImagePainter, FractalInformation
 * global constants are imageSize=512 and white='#ffffff'
-### __makePicture(fractalInfo, image)
-* Input: fractal info is the sub dictionary of fractalInformation that has info on one specific fractal. Image is the image object
-* Internal Data: 
-	* defines minimum x and y and maximum x, which are used to find the iterative complex number
-	* defines z, which is the constant complex number
-	* calculates pixleSize
-	* Calls paint from the ImagePainter class with all the information just defined
-* Output: Nothing, just calls the ImagePainter 
-* Function Stub:
-```
-minX = fractalInfo[centerX] - fractalInfo[axisLen] / 2
-maxX = fractalInfo[centerX] + fractalInfo[axisLen] / 2
-minY = fractalInfo[centerY] - fractalInfo[axisLen] / 2
-z = fractalInfo[z]
 
-pixelSize = abs(maxX - minX) / imageSize
-image.paint(minX, minY, PixSize, imageSize, z
+### getIteration(c, z, paletteSize)
+* Input: c is a complex gotten from ImagePainter.paint, z is the constant
+	* z is (0.0, 0.0) for mbrot 
+	* z is (-1.0, 0.0) for Julia)
+* Internal Data: 
+	* Iterate through paletteSize
+	* if abs(z) > 2 return i
+	* if it never reaches 2, return paletteSIze - 1
+* Output: integer i, index at which z exceeded 2
+* Function Stub: 
 ```
+for i in range(paletteSize):
+	z = z * z + c 
+	if abs(z) > 2:
+		return i
+return paletteSize - 1
+```
+
 
 ### main(fractalInfo, fractalName)
 * Input: fractalInfo is the sub dictionary containing info for one fractal, fractalName is the string form of the fractal's name.
@@ -144,9 +137,22 @@ image.paint(minX, minY, PixSize, imageSize, z
 * Function Stub:
 ```
 image = ImagePainter.ImagePainter(imageSize, white)
+minX = fractalInfo[centerX] - fractalInfo[axisLen] / 2
+maxX = fractalInfo[centerX] + fractalInfo[axisLen] / 2
+minY = fractalInfo[centerY] - fractalInfo[axisLen] / 2
+z = fractalInfo[z]
+paletteSize = Palette.getSize()
+
+pixelSize = abs(maxX - minX) / imageSize
 
 before
-makePicture(fractalInfo, image)
+for row in IMGSIZE, 0 , -1
+	for col in IMGSIZE
+		x = minX + col * pixelSize
+                y = minY + row * pixelSize
+		index = getIteration(complex(x, y), z, paletteSize)
+		ImagePainter.paint(index, row, col, IMGSize)
+	ImagePainter.update()
 after
 
 print( done in (before - after) seconds) to sys.stderr
@@ -157,6 +163,109 @@ print(close the image window to end the program)
 
 mainloop()
 ```
+
+
+## ImagePainter
+* Import Tk, Canvas, PhotoImage from tkinter, import Palette
+### ImagePainter(IMGSIZE, bg)
+* Input: IMG_SIZE is the integer that gives the size of the window and therefore image in pixels. bg is background color, given as a string.
+* Internal Data:
+	* define window, canvas, and image
+	* pack the canvas and use canvas to create an image from tkinter
+* Output: Nothing 
+* Function Stub:	
+```	
+__window = Tk()
+__canvas = Canvas(__window, width=IMGSIZE, height=IMGSIZE, bg=bg)
+__canvas.pack()
+__image = PhotoImage(width=IMGSIZE, height=IMGSIZE)
+__canvas.create_imgae((IMGSIZE /2, IMGSIZE/2), image=__image, state='normal')
+```
+
+### paint(index, row, col, IMGSIZE)
+* Input: index, row, and col are integers determined by what pixel is being colored. IMGSIZE is the integer size of the window.
+* Internal Data: 
+	* color is determined by palette at index given
+	* __image will .put() the color at the correct pixel.
+* Output: Returns nothing, renders the image.
+* Function Stub:
+```
+
+color = palete.getColor(index)
+__image.put(color, col, IMGSize - row)
+
+```
+
+### update():
+* Input: Nothing
+* InternalData: self.__window.update()
+* Output: Nothing
+* Function Stub:
+```
+self.__window.update()
+```
+
+
+## FractalInformation
+
+### Constructor
+* Input: Nothing
+* Internal Data: 
+	* creates an instance of the dictionary
+* Output: Nothing
+* Function Stub: Initializes the dictionary of fractals
+
+### GetDictionary()
+* Input: Nothing
+* INternal Data: 
+	* return self.fractalDictionary
+* Output: returns dictionary
+* Function Stub: 
+``` 
+return fractal dictionary
+```
+
+### getFractal(key)
+* Input: key as a string. this is the name of the fractal to return
+* Internal data:
+	* If the key is in the dictionary, return the key
+* Output: key as a string
+* Function Stub: 
+```
+if key in fractalDictionary:
+	return key
+```
+
+
+## Palette
+
+### Constructor()
+* Input: Nothing
+* Internal Data: defines list of colors as strings
+* Putput: Nothing
+* Function Stub: Defines palette
+
+### getSize()
+* Input: Nothign
+* INternal Data: 
+	* returns size of the list
+* Output: size of the list, integer
+* Function Stub:
+```
+return len(self.__palette)
+```
+
+### getColor(index)
+* Input: index of the list as an integer to return
+* Internal Data: 
+	* return palette at index givem
+* Output: string at the index provided
+* Function Stub:
+```
+return self.__palette[index]
+```
+
+ 
 # 3.  Function Template
 
 **Combine the function stubs written in step #2 with pseudocode from step #3.

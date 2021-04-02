@@ -37,30 +37,30 @@ class Julia:
         # Call tkinter.mainloop so the GUI remains open
         mainloop()
 
-    if __name__ == '__main__':
-        fractals = FractalInformation.FractalInformation().getDictionary()
-        import Julia
-        # Process command-line arguments, allowing the user to select their fractal
-        if len(sys.argv) < 2:
-            print("Please provide the name of a fractal as an argument")
-            for i in fractals:
-                print(f"\t{i}")
-            sys.exit(1)
-
-        elif sys.argv[1] not in fractals:
-            print(f"ERROR: {sys.argv[1]} is not a valid fractal")
-            print("Please choose one of the following:")
-            for i in fractals:
-                print(f"\t{i}")
-            sys.exit(1)
-
-        elif fractals[sys.argv[1]]['type'] != 'julia':
-            print(f"ERROR: You are trying to print a Mandelbrot fractal from Julia.py")
-            input = input("Proceed? (y or n): ")
-            if input.lower().startswith("y"):
-                Julia.Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])
-            else:
-                sys.exit(1)
-
-        else:
-            Julia.Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])
+    # if __name__ == '__main__':
+    #     fractals = FractalInformation.FractalInformation().getDictionary()
+    #     import Julia
+    #     # Process command-line arguments, allowing the user to select their fractal
+    #     if len(sys.argv) < 2:
+    #         print("Please provide the name of a fractal as an argument")
+    #         for i in fractals:
+    #             print(f"\t{i}")
+    #         sys.exit(1)
+    #
+    #     elif sys.argv[1] not in fractals:
+    #         print(f"ERROR: {sys.argv[1]} is not a valid fractal")
+    #         print("Please choose one of the following:")
+    #         for i in fractals:
+    #             print(f"\t{i}")
+    #         sys.exit(1)
+    #
+    #     elif fractals[sys.argv[1]]['type'] != 'julia':
+    #         print(f"ERROR: You are trying to print a Mandelbrot fractal from Julia.py")
+    #         input = input("Proceed? (y or n): ")
+    #         if input.lower().startswith("y"):
+    #             Julia.Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])
+    #         else:
+    #             sys.exit(1)
+    #
+    #     else:
+    #         Julia.Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])

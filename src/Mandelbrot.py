@@ -51,29 +51,29 @@ class Mandelbrot:
         print(f"{pixels} pixels have been output so far")
         return pixels
 
-    if __name__ == '__main__':
-        fractals = FractalInformation.FractalInformation().getDictionary()
-        import Mandelbrot
-        if len(sys.argv) < 2:
-            print("Please provide the name of a fractal as an argument")
-            for i in fractals:
-                print(f"\t{i}")
-            sys.exit(1)
-
-        elif sys.argv[1] not in fractals:
-            print(f"ERROR: {sys.argv[1]} is not a valid fractal")
-            print("Please choose one of the following:")
-            for i in fractals:
-                print(f"\t{i}")
-            sys.exit(1)
-
-        elif fractals[sys.argv[1]]['type'] != 'mandelbrot':
-            print(f"ERROR: You are trying to print a Julia fractal from Mandelbrot.py")
-            input = input("Proceed? (y or n): ")
-            if input.lower().startswith("y"):
-                Mandelbrot.Mandelbrot().mbrot_main(fractals[sys.argv[1]], sys.argv[1])
-            else:
-                sys.exit(1)
-
-        else:
-            Mandelbrot.Mandelbrot().mbrot_main(fractals[sys.argv[1]], sys.argv[1])
+    # if __name__ == '__main__':
+    #     fractals = FractalInformation.FractalInformation().getDictionary()
+    #     import Mandelbrot
+    #     if len(sys.argv) < 2:
+    #         print("Please provide the name of a fractal as an argument")
+    #         for i in fractals:
+    #             print(f"\t{i}")
+    #         sys.exit(1)
+    #
+    #     elif sys.argv[1] not in fractals:
+    #         print(f"ERROR: {sys.argv[1]} is not a valid fractal")
+    #         print("Please choose one of the following:")
+    #         for i in fractals:
+    #             print(f"\t{i}")
+    #         sys.exit(1)
+    #
+    #     elif fractals[sys.argv[1]]['type'] != 'mandelbrot':
+    #         print(f"ERROR: You are trying to print a Julia fractal from Mandelbrot.py")
+    #         input = input("Proceed? (y or n): ")
+    #         if input.lower().startswith("y"):
+    #             Mandelbrot.Mandelbrot().mbrot_main(fractals[sys.argv[1]], sys.argv[1])
+    #         else:
+    #             sys.exit(1)
+    #
+    #     else:
+    #         Mandelbrot.Mandelbrot().mbrot_main(fractals[sys.argv[1]], sys.argv[1])
