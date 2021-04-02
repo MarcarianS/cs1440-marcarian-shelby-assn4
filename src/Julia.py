@@ -1,31 +1,43 @@
 import sys
 from tkinter import mainloop
 from time import time
-import ImagePainter
-import FractalInformation
+from ImagePainter import ImagePainter
+from Palette import Palette
+
 
 WHITE = '#ffffff'
 IMG_SIZE = 512
 
 class Julia:
 
-    def __makePicture(self, fractalInfo, image):
+    def getIteration(self, c, z, paletteSize):
+        for i in range(paletteSize):
+            c = c * c + z
+            if abs(c) > 2:
+                return i
+        return 77
+
+
+    def julia_main(self, fractalInfo, fractalName):
+        # Create an ImagePainter object to work with later
+        image = ImagePainter(IMG_SIZE, WHITE)
         # Correlate the boundaries of the PhotoImage object to the complex
         # coordinates of the imaginary plane
         minX = fractalInfo['centerX'] - (fractalInfo['axisLen'] / 2.0)
         maxX = fractalInfo['centerX'] + (fractalInfo['axisLen'] / 2.0)
         minY = fractalInfo['centerY'] - (fractalInfo['axisLen'] / 2.0)
         z = fractalInfo['z']
-
+        paletteSize = Palette().getSize()
         pixelSize = abs(maxX - minX) / IMG_SIZE
-        image.paint(minX, minY, pixelSize, IMG_SIZE, z)
-
-    def julia_main(self, fractalInfo, fractalName):
-        # Create an ImagePainter object to work with later
-        image = ImagePainter.ImagePainter(IMG_SIZE, WHITE)
 
         before = time()
-        self.__makePicture(fractalInfo, image)
+        for row in range(IMG_SIZE, 0, -1):
+            for col in range(IMG_SIZE):
+                x = minX + col * pixelSize
+                y = minY + row * pixelSize
+                index = self.getIteration(complex(x, y), z, paletteSize)
+                image.paint(index, row, col, IMG_SIZE)
+            image.update()
         after = time()
 
         print(f"Done in {after - before:.3f} seconds!", file=sys.stderr)
@@ -37,30 +49,3 @@ class Julia:
         # Call tkinter.mainloop so the GUI remains open
         mainloop()
 
-    # if __name__ == '__main__':
-    #     fractals = FractalInformation.FractalInformation().getDictionary()
-    #     import Julia
-    #     # Process command-line arguments, allowing the user to select their fractal
-    #     if len(sys.argv) < 2:
-    #         print("Please provide the name of a fractal as an argument")
-    #         for i in fractals:
-    #             print(f"\t{i}")
-    #         sys.exit(1)
-    #
-    #     elif sys.argv[1] not in fractals:
-    #         print(f"ERROR: {sys.argv[1]} is not a valid fractal")
-    #         print("Please choose one of the following:")
-    #         for i in fractals:
-    #             print(f"\t{i}")
-    #         sys.exit(1)
-    #
-    #     elif fractals[sys.argv[1]]['type'] != 'julia':
-    #         print(f"ERROR: You are trying to print a Mandelbrot fractal from Julia.py")
-    #         input = input("Proceed? (y or n): ")
-    #         if input.lower().startswith("y"):
-    #             Julia.Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])
-    #         else:
-    #             sys.exit(1)
-    #
-    #     else:
-    #         Julia.Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])

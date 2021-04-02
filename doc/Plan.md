@@ -115,7 +115,7 @@ else:
 	* if abs(z) > 2 return i
 	* if it never reaches 2, return paletteSIze - 1
 * Output: integer i, index at which z exceeded 2
-* Function Stub: 
+* Function Stub (MandelBrot): 
 ```
 for i in range(paletteSize):
 	z = z * z + c 
@@ -123,7 +123,25 @@ for i in range(paletteSize):
 		return i
 return paletteSize - 1
 ```
+* Function Stub (Julia):
+```
+for i in range(paletteSize):
+	c = c * c + z
+	if abs(c) > 2
+		return i
+return 77
+```
 
+### pixelsWrittenSoFar(rows, cols)
+* Input: rows and columns, both integers * Internal Data: 
+mulitplies rows by columns and reports to console * Output: 
+returns number of pixels and prints messsage to console * 
+Functions Stub:
+```
+pixles = rows * cols
+print({pixels} have been printed so far)
+return pixels
+```
 
 ### main(fractalInfo, fractalName)
 * Input: fractalInfo is the sub dictionary containing info for one fractal, fractalName is the string form of the fractal's name.
@@ -205,7 +223,15 @@ __image.put(color, col, IMGSize - row)
 self.__window.update()
 ```
 
-
+### writePNG(name)
+* Input : name of fractal as a string
+* Internal Data: 
+	* writes the fractal image to a png with its name
+* Output: creates a PNG file
+* Function Stub: 
+```
+self.___image.write(f"{name}.png")
+```
 ## FractalInformation
 
 ### Constructor
@@ -268,10 +294,6 @@ return self.__palette[index]
  
 # 3.  Function Template
 
-**Combine the function stubs written in step #2 with pseudocode from step #3.
-Comment out the pseudocode, leaving a valid program that compiles/runs without
-errors.  At this stage your program doesn't quite work, but it also doesn't
-crash.**
 
 
 # 4.  Implementation
@@ -293,23 +315,11 @@ technologies you will spend less and less time in this phase of the process.**
 
 # 5.  Testing
 
-**Articulate the examples given in step #2 as tests and ensure that each
-function passes all of its tests.  Doing so discovers mistakes.  Tests also
-supplement examples in that they help others read and understand the definition
-when the need arises—and it will arise for any serious program.**
-
-**As bugs are discovered and fixed, devise new test cases that will detect these
-problems should they return.**
-
-**If you didn't come across any bugs (lucky you!) think of a possible flaw and a
-test that can be employed to screen for it.**
-
-**At a minimum you should create a document explaining step-by-step how a
-non-technical user may manually test your program to satisfy themselves that it
-operates correctly.  Explain the entire process starting how to launch the
-program, what inputs they should give and what results they should see at every
-step.  Provide test cases of good and bad inputs to catch both false positives
-and false negatives.  Any deviation from the expected outputs are errors.**
-
-**The ideal is to write an automated test to avoid all manual labor beyond
-launching the test.**
+- If the image rendered comes out as a solid background color, make sure you're checking the right complex against 2
+	- Julia should compare abs of c
+	- mbrot should compare abs of z
+- If mandelbrot looks way too detailed on teh edges and looks smudged to the left
+	- make sure you're passing the correct variables to getIteration (second one should be z, not x)
+- Python plays nicer with imports that are formatted "from... import..."
+	- this is not working for the Testing folder
+	- to run tests, see top of document

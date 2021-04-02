@@ -1,10 +1,10 @@
 import unittest
-import FractalInformation
+from FractalInformation import FractalInformation
 
 
 class TestFractalInformation(unittest.TestCase):
     def setUp(self):
-        self.info = FractalInformation.FractalInformation()
+        self.info = FractalInformation()
 
     def test_getFractal(self):
         self.assertEqual(self.info.getFractal('fulljulia'), 'fulljulia')

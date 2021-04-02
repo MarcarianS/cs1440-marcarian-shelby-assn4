@@ -1,11 +1,11 @@
 import sys
 
-import FractalInformation
-import Julia
-import Mandelbrot
+from FractalInformation import FractalInformation
+from Julia import Julia
+from Mandelbrot import Mandelbrot
 
 
-fractals = FractalInformation.FractalInformation().getDictionary()
+fractals = FractalInformation().getDictionary()
 
 if len(sys.argv) < 2:
     print("Please provide the name of a fractal as an argument")
@@ -23,7 +23,7 @@ elif sys.argv[1] not in fractals:
 else:
 
     if fractals[sys.argv[1]]['type'] == 'julia':
-        Julia.Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])
+        Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])
 
     elif fractals[sys.argv[1]]['type'] == 'mandelbrot':
-        Mandelbrot.Mandelbrot().mbrot_main(fractals[sys.argv[1]], sys.argv[1])
+        Mandelbrot().mbrot_main(fractals[sys.argv[1]], sys.argv[1])

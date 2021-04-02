@@ -1,10 +1,10 @@
 import unittest
 
-from Testing import TestMandelbrot,  TestImagePainter, TestPalette, TestFractalInformation
+from Testing import TestMandelbrot, TestPalette, TestFractalInformation, TestJulia
 
 
 suite = unittest.TestSuite()
-tests = (TestMandelbrot.TestMandelbrot, TestImagePainter.TestImagePainter, TestFractalInformation.TestFractalInformation,
+tests = (TestMandelbrot.TestMandelbrot, TestJulia.TestJulia, TestFractalInformation.TestFractalInformation,
          TestPalette.TestPalette)
 for test in tests:
     suite.addTest(unittest.makeSuite(test))
