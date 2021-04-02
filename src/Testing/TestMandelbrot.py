@@ -1,6 +1,5 @@
 import unittest
-import Mandelbrot
-
+from Mandelbrot import
 
 # autocmd BufWritePost <buffer> !python3 runTests.py
 

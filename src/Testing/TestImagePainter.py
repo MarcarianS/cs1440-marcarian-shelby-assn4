@@ -1,6 +1,6 @@
 import unittest
-
 import ImagePainter
+
 
 
 # autocmd BufWritePost <buffer> !python3 runTests.py
