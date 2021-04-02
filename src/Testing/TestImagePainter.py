@@ -1,5 +1,6 @@
 import unittest
-import ImagePainter
+
+from ImagePainter import ImagePainter
 
 
 
@@ -7,7 +8,7 @@ import ImagePainter
 
 class TestImagePainter(unittest.TestCase):
     def setUp(self):
-        self.image = ImagePainter.ImagePainter(512, '#ffffff')
+        self.image = ImagePainter(512, '#ffffff')
     def test_calculateColor(self):
         # Tests mandelbrot values
         self.assertEqual(self.image.calculateColor(complex(0.0, 0.0), complex(0.0, 0.0)), '#002277')
@@ -35,7 +36,7 @@ class TestImagePainter(unittest.TestCase):
         self.assertEqual(self.image.calculateColor(complex(0.4937499999999999, -0.234375), complex(-1.0, 0.0)), '#fff797')
         self.assertEqual(self.image.calculateColor(complex(0.3374999999999999, 0.546875), complex(-1.0, 0.0)), '#ffe9ab')
 
-    if __name__ == '__main__':
-        unittest.main()
+if __name__ == '__main__':
+    unittest.main()
 
 
