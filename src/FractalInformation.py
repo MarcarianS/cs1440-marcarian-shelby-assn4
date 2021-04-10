@@ -81,9 +81,6 @@ class FractalInformation:
     def getDictionary(self):
         return self.__fractalDictionary
 
-    def getFractal(self, key):
-        if key in self.__fractalDictionary:
-            return key
 
 
 

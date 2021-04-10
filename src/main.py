@@ -3,6 +3,7 @@ import sys
 from FractalInformation import FractalInformation
 from Julia import Julia
 from Mandelbrot import Mandelbrot
+from ImagePainter import ImagePainter
 
 
 fractals = FractalInformation().getDictionary()
@@ -21,9 +22,10 @@ elif sys.argv[1] not in fractals:
     sys.exit(1)
 
 else:
-
-    if fractals[sys.argv[1]]['type'] == 'julia':
-        Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])
-
-    elif fractals[sys.argv[1]]['type'] == 'mandelbrot':
-        Mandelbrot().mbrot_main(fractals[sys.argv[1]], sys.argv[1])
+    ImagePainter().paint(sys.argv[1], fractals[sys.argv[1]])
+    #
+    # if fractals[sys.argv[1]]['type'] == 'julia':
+    #     Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])
+    #
+    # elif fractals[sys.argv[1]]['type'] == 'mandelbrot':
+    #     Mandelbrot().mbrot_main(fractals[sys.argv[1]], sys.argv[1])
