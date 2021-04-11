@@ -15,30 +15,57 @@ to decide what to do
 * paletteFactory creates a palette object from the palette and iterations of fractal
 * Once Palette and Fractal are created, use their information/attributes to call the for loop that will .put the color on the canvas.
 
-
-
-# 1. System Analysis
-
 ## main.py
 * If there are an appropriate numebr of arguments given, main will
 call Fractal Factory with the relative path to the .frac file
+* if 1 arg given, use default frac and palette
+* if 2 arg give, use second one as frac file name, use default palette
+* if 3 arg given, use second as frac file, third as palette
+* if defaults are begin used, alert the user
+* invalid files lets open() fail
+* Invalid palettes rasies NotImplemeted exception
 
 ## Image Painter Class
+* init method creates Tk window, canvas, and image. packs the canvas.
+* Has one method paint, called from main.py, takes the frac path and palette name
+* paint will call makeFractal(.frac path) from fractalFactory
+* MakeFractal calls Fractals constructor, makeFractal should return the Fractal object to ImagePainter
+* call PaletteFactory, creates a Palette object to reference later
+* use the dictionary created in fractalFactory to get the complex number to send to count()
+* ImagePainter will use Fractal.count() in a for loop.
+* get the color from the palette object, .put() that color at the pixel.
+* update the image every row
+* After the picture is done, mainloop() keeps it open and a png file is written.
 
+## Fractal Factory Class
+* has a makeFractal() method that takes the path of the frac file 
+* translates the .frac file into a dictionary. The 
+dictionary contains:
+	* type
+	* pixles (width and height of the image)
+	* axis length
+	* pixelSize (calculated abs(maxX - minX) / pixels)
+	* iterations
+	* min (calc from centerX - (axis length / 2), centerY - axislen / 2)
+	* max (centerX + (axis length / 2), centerY + asixlen / 2)
+	* imageName
+* Julia fractals only:
+	* creal
+	* cimag
 ## Fractal Class
 * Has init and count methods, both raise an exception when called.
-* This is an abstract class.
+* This is an abstract class, empty
 
 ## Julia Class
-* uses the fulljulia file
+* uses the fulljulia file's dictionary
 * overrides init and count
 * count will be given a complex number and returns iterations
+* 
 
 ## Mandelbrot Class
 
 ## Phoenix Class
 
-## Fractal Factory Class
 
 ## Palette Class
 
@@ -62,6 +89,8 @@ range from #01ff01 to #e3ffe3
 range fom white to black, increment by 256
 
 ## Palette Factory Class
+
+# 1. System Analysis
 
 # 2. Functional Examples
 

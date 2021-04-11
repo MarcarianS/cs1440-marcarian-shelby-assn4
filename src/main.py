@@ -23,9 +23,3 @@ elif sys.argv[1] not in fractals:
 
 else:
     ImagePainter().paint(sys.argv[1], fractals[sys.argv[1]])
-    #
-    # if fractals[sys.argv[1]]['type'] == 'julia':
-    #     Julia().julia_main(fractals[sys.argv[1]], sys.argv[1])
-    #
-    # elif fractals[sys.argv[1]]['type'] == 'mandelbrot':
-    #     Mandelbrot().mbrot_main(fractals[sys.argv[1]], sys.argv[1])
