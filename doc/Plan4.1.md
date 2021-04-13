@@ -323,7 +323,84 @@ return dictionary[iterations] - 1
 
 ```
 
-## Palette Factory (Nonstatic)
+## Palette Factory (Static)
+
+### makePalette(paletteName, iterations)
+* Input: paletteName, given from main, string. iterations, from fractal information, integer.
+* Internal Data: 
+	* if paletteName = defaultPalette, call Easter(iterations)
+	* use elif to figure out if the palette is Easter or GreenScale, or invalid
+	* if invalid, call notimplemented.
+	* else return Palette.Palette(iterations)
+* Output: returns a palette object to ImagePainter
+* Function Stub:
+```
+if paletteName = defaultPalette
+	return Easter.Easter(iterations)
+elif paletteName = Easter
+	return Easter.Easter(iterations)
+elif paletteName = GreenScale
+	return GreenScale.GreenScale(iterations)
+else
+	raise notimplemented error
+```
+
+## Palette (Nonstatic)
+
+### init()
+* Raise not implemented error
+### getColor(n)
+* Raise not implemented error
+
+## Easter (Nonstatic)
+
+### init(iterations)
+* Input: iterations, the size of the color list
+* Internal Data: 
+	* define the list full of pastels with black between each
+	* use iteratiosn to determine how many entrues are in the palette
+* Output
+* Function Stub:
+```
+originalColors =  [ffb0f8, 000000, d158ff, 000000, a8e1ff, 000000, a6ffa7, 000000, fffeb8, 000000, ffd699, 000000]
+step = iterations / len(originalColors)
+self.__palette = (list(ffb0f8.range_to(black, step)) + list(d158ff.range_to(black, step) + etc
+for c in self.__palette:
+	c.hex_l()
+```
+
+### getColor(n)
+* Input: n is the integer index of the list to return
+* Internal Data: 
+	* return self.__palette[n]
+* Output: return a color code in #rrggbb format.
+* Function Stub:
+```
+return self.__palette[n]
+```
+## GreenScale (Nonstatic)
+
+### init(iterations)
+* Input: integer iterations determines the size of steps between each shade of green
+* Internal Data:
+	* define the list of colors for self.__palette with different shades of green
+* Output: 
+* Function Stub:
+```
+step = iterations / 4
+self.__palette = list(green.range_to(002600, step) + list(002700.range_to(green, step) + etc
+for c in palette:
+	c.hex_l()
+```
+### getColor(n)
+* Input: n is the integer index of the list to return
+* Internal Data:
+        * return self.__palette[n]
+* Output: return a color code in #rrggbb format.
+* Function Stub:
+```
+return self.__palette[n]
+```
 
 # 2. Functional Examples
 
