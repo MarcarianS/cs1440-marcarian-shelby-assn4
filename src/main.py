@@ -1,25 +1,17 @@
 import sys
 
-from FractalInformation import FractalInformation
-from Julia import Julia
-from Mandelbrot import Mandelbrot
-from ImagePainter import ImagePainter
+import ImagePainter
 
+defaultFractal = 'default'
+defaultPalette = 'default'
 
-fractals = FractalInformation().getDictionary()
-
-if len(sys.argv) < 2:
-    print("Please provide the name of a fractal as an argument")
-    for i in fractals:
-        print(f"\t{i}")
-    sys.exit(1)
-
-elif sys.argv[1] not in fractals:
-    print(f"ERROR: {sys.argv[1]} is not a valid fractal")
-    print("Please choose one of the following:")
-    for i in fractals:
-        print(f"\t{i}")
-    sys.exit(1)
-
+if len(sys.argv) == 1:
+    ImagePainter.paint(defaultFractal, defaultPalette)
+elif len(sys.argv) == 2:
+    ImagePainter.paint(sys.argv[1], defaultPalette)
+elif len(sys.argv) == 3:
+    ImagePainter.paint(sys.argv[1], sys.argv[2])
 else:
-    ImagePainter().paint(sys.argv[1], fractals[sys.argv[1]])
+    print("Looks like you entered to wrong number of parameter! This program takes 0, 1, or 2 arguments.")
+    sys.exit(1)
+

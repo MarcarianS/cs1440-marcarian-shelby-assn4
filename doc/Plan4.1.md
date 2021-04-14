@@ -173,7 +173,7 @@ print(wrote imageName)
 mainloop()
 ```
 
-## Fractal Factory (Static)
+## Fractal Factory (Module)
 
 ### makeFractal(path)
 * Input: string, path to the file to read into a dictionary
@@ -192,33 +192,93 @@ mainloop()
 * Function Stub:
 ```
 if path = 'defaultFractal'
-	fileObj.open('mandelbrot.frac')
-	printcreating a default fractal
+	dictionary = defaultFractal()
 else:
 	fileObj = open("path")
+keys = [list the keys]
 dictionary = {}
 for line in fileObj:
 	if line.startsWith('#') or line.isspace()
 		continue
 	else:
 		dictEntry = line.split(": ")
-		if dictEntry[0] == type and not dictEntry[1].isNumeric()
-			dictionary['type'] = dictEntry[1]
-		elif dictEntry[0] == pixels and not dictEntry[1].contains"."
-			dictionary['pixels'] = dictentry[1]
-		etc for rest of lines
-keys = [list the keys]
+		checkEntry = checkReqs(dictEnry, dictionary)
+		dictionary[checkedEntry[0]] = checkedEntry[1]
+close file
 for key in keys
 	if key ! in dictionary
 		raise notImplementedError
 if dictionary[type] == julie and creal or cimag not in dictionary
 	raise notImplementedError
+dictionary = updatedictionary(dictionary, path)
+
 if type == julia
-	return Julia.Julia(dictionary, complex(creal, cimag))
+	return Julia.Julia(dictionary)
 elif type == Mandelbrot
 	return Mandelbrot.Mandelbrot(dictionary)
-elif type == burningship
-	return BurningShip.BurningShip(dictionary)
+elif type == mandelbrot4
+	return Manelbrot4.Mandelbrot4(dictionary)
+```
+
+### defaultFractal()
+* Input: nothing
+* Internal data:
+	* print message to let the user know a default is being created
+	* create a hardcoded dictionary of values and return it
+* Output: fractal dictionary for mandelbrot
+* Function Stub:
+```
+print(creating a default fractal
+dictionary = {all mandelbrot info goes here}
+return dictionary
+```
+### checkReqs(dictEntry, dictionary) 
+* Input: dict entry is a list of the key value pair for 
+the current line, dictionary is the info dictionary to update 
+* Internal Data:
+	* translate each key to lowercase, perform basic checks for each
+	* if entry 0 and 1 of dictEntry are valid keys and values, add it to the dictionary
+	* return the tuple of key and value, formatted to lowercase and integer or float
+	* If the type is julia, check julia reqs as well. Assumes that type is higher in the file than creal and cimag.
+* Output: return tuple
+* Function Stub:
+```
+if dictentry = type and is not numeric
+	return type, dictEntry[1]
+if dictentry = pixels, is numeric, and has no decimal
+	return pixels, int(dictentry[1]
+so on for each required datafield
+if type == julia
+	return checkJuliaReqs(dictEntry)
+else: raise not implemented error
+```
+
+### checkJuliaReqs(dictEntry)
+* Input: list of possible key and value
+* Internal Data: same as check Reqs
+* Output: tuple of key and value pair
+* Function Stub:
+```
+same as checkReqs, just for creal and cimag
+```
+
+### updateDictionary(dictionary, path)
+* Input: dictionary that just holds the information from the file. Path that contains the imageName
+* Internal Data:
+	* set the final keys and values needed for each fractal
+	* calculate pixelsize, mins and maxes, and gets just the image name with png.
+* Output: returns the updated dictionary
+* Function Stub: 
+```
+return {
+type = type,
+pixels = pixels,
+axislength = axilength
+pixelSize = axislength / pixels
+Iterations = iterations
+min: {x: centerx - axislength / 2, y: centerY - axislength / 2},
+max: {x: centerx + axislength / 2, y: centerY + axislength / 2}, 
+imagename = path.split("/")[-1].split(".")[0] + "png"
 ```
 
 ## Fractal (Nonstatic)
@@ -297,7 +357,7 @@ for i in range(dictionary[iterations] - 1):
 return dictionary[iterations]- 1
 ```
 
-## BurningShip (Nonstatic)
+## Mandelbrot4 (Nonstatic)
 
 ### init(dictionary)
 * Input: dictionary of fractal info
@@ -306,7 +366,7 @@ return dictionary[iterations]- 1
 * Function Stub:
 ```
 self.__dictionary = dictionary
-self.__c = complex(0.0, 0.0
+self.__c = complex(0.0, 0.0)
 ```
 
 ### count(n)
@@ -316,14 +376,14 @@ self.__c = complex(0.0, 0.0
 * Function Stub: 
 ```
 for i in range(dictionary[iterations] - 1)
-        c = (abs(real(c)) + abs(imag(c)) * sqrt(-1)) ^ 2 - n
+	c = c * c * c + n
         if abs c > 2
                 rturn i
 return dictionary[iterations] - 1
 
 ```
 
-## Palette Factory (Static)
+## Palette Factory (Module)
 
 ### makePalette(paletteName, iterations)
 * Input: paletteName, given from main, string. iterations, from fractal information, integer.
@@ -336,11 +396,11 @@ return dictionary[iterations] - 1
 * Function Stub:
 ```
 if paletteName = defaultPalette
-	return Easter.Easter(iterations)
+	return Easter(iterations)
 elif paletteName = Easter
-	return Easter.Easter(iterations)
+	return Easter(iterations)
 elif paletteName = GreenScale
-	return GreenScale.GreenScale(iterations)
+	return GreenScale(iterations)
 else
 	raise notimplemented error
 ```
