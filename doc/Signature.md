@@ -16,4 +16,6 @@
 | April 11  | Plan step 1, understand prgram closer up than bird's eye
 | April 12  | Work on plan step 1
 | April 13  | Finish plan and manual, begin implementing
+| April 14  | Finish implementation of all but GreenScale
+| April 15  | Finish implementation, create UML and update plan
 

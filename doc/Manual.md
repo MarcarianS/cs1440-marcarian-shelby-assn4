@@ -8,8 +8,8 @@
 	* No fractal specified (will print the default Madelbrot Fractal)
 		* Note: If no fractal is specfied, you cannot specify a palette, or the program will attempt to read the palette file as a fractal configuration file.
 	* mandelbrot.frac
-	* fuljulia.frac
-	* burningship.frac
+	* fulljulia.frac
+	* mandelfour.frac
 		* Note: for any file path given, remember to enter the path from your current working directory to these files. 
 * Palette Name is the name of the Palette you want to run. Options include:
 	* No palette specified (will choose the default palette, Easter)

@@ -3,7 +3,7 @@ from GreenScale import GreenScale
 
 def makePalette(paletteName, iterations):
     if paletteName == 'default':
-        return Easter(iterations)
+        return GreenScale(iterations)
     elif paletteName == 'Easter':
         return Easter(iterations)
     elif paletteName == 'GreenScale':

@@ -69,7 +69,7 @@ dictionary contains:
 ## Mandelbrot Class
 * Very similar to Julia, except c = complex(0, 0)
 
-## Phoenix Class
+## mandel4 Class
 * Similar structure to Julia and Mbrot, different numbers and equation
 
 ## Palette Factory Class
@@ -80,22 +80,19 @@ dictionary contains:
 * has an init and getColor function, both abstract
 
 ## Easter Palette Class
-will use pastel pink, purple, blue, green, yellow, and orange
-with black between. Overall 12 colors
-palette : ffb0f8, d58ff, a8e1ff, a6ffa7, fffeb8, ffd699
-is iteration returned is divisable by 12, take black
-11, orange
-10, black
-9, yellow
-etc
+* will use pastel pink, purple, blue, green, yellow, and orange
+* with black between. Overall 12 colors
+* palette : ffb0f8, d58ff, a8e1ff, a6ffa7, fffeb8, ffd699
+* creates a palette with steps between each color determined by number of iteratons
 * init will create a self.palette using those colors
 * getcolor(n) returns the corressponding color
 
 ## Green scale/ St. Patrick Class
-use shades from green to black to green to white.
-range from #00ff00 to #002600
-range from #002700 to #00ff00
-range from #01ff01 to #e3ffe3
+* use shades from green to black to green to white.
+* range from black to green
+* range from #002600 to green
+* range from #e3ffe3 to green
+* range from white to green
 * similar implementation to Easter
 
 
@@ -422,11 +419,39 @@ else
 * Output
 * Function Stub:
 ```
-originalColors =  [ffb0f8, 000000, d158ff, 000000, a8e1ff, 000000, a6ffa7, 000000, fffeb8, 000000, ffd699, 000000]
-step = iterations / len(originalColors)
-self.__palette = (list(ffb0f8.range_to(black, step)) + list(d158ff.range_to(black, step) + etc
-for c in self.__palette:
-	c.hex_l()
+self.__originalColors =  [ffb0f8,  d158ff,  a8e1ff,  a6ffa7,  fffeb8,  ffd699, 000000]
+self.__step = iterations / len(originalColors)
+self.__palette = self.__makePalette()
+```
+### __makepalette()
+* Input : nothing
+* Internal Data:
+        * create an empty list
+        * for color in original, add makeColor(color) >
+        * return palette
+* Ouput: list of hex colors
+* Function Stub:
+```
+palette = []
+for colorCode in originalColors
+        palette += makeColors(colorCode)
+return palette
+```
+### __makeColor(colorCode)
+* Input: color code, string of hex
+* Internal Data:
+        * create Color object
+        * create a list of color objects from the colo>
+        * convert each entry to hex
+        * return the color list
+* Output: list of hex colors
+* Function Stub:
+```
+color = COlor(colorCode)
+colors = list(color.rangeto(green, slef.__step)
+for i in range(lencolors)
+        colors[i] = colors[i].hex_l
+return colors
 ```
 
 ### getColor(n)
@@ -447,10 +472,41 @@ return self.__palette[n]
 * Output: 
 * Function Stub:
 ```
-step = iterations / 4
-self.__palette = list(green.range_to(002600, step) + list(002700.range_to(green, step) + etc
-for c in palette:
-	c.hex_l()
+self.__originalColors = [black, 002600, e3ffe3, white]
+self.__step = iterations / len(orignalColors) + 1
+sel.f__palette = makePalette()
+
+```
+
+### __makepalette()
+* Input : nothing
+* Internal Data:
+	* create an empty list
+	* for color in original, add makeColor(color) to the list
+	* return palette
+* Ouput: list of hex colors
+* Function Stub:
+```
+palette = []
+for colorCode in originalColors
+	palette += makeColors(colorCode)
+return palette
+```
+### __makeColor(colorCode)
+* Input: color code, string of hex
+* Internal Data:
+	* create Color object 
+	* create a list of color objects from the color to green
+	* convert each entry to hex
+	* return the color list
+* Output: list of hex colors
+* Function Stub:
+```
+color = COlor(colorCode)
+colors = list(color.rangeto(green, slef.__step)
+for i in range(lencolors)
+	colors[i] = colors[i].hex_l
+return colors
 ```
 ### getColor(n)
 * Input: n is the integer index of the list to return

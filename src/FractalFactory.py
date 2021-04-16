@@ -10,13 +10,17 @@ def makeFractal(path):
         required = ['type', 'centerx', 'centery', 'axislength', 'pixels', 'iterations']
         juliaReq = ['creal', 'cimag']
         dictionary = {}
+
         for line in fileObj:
             if line.startswith("#") or line.isspace():
                 continue
             else:
+                line = line.strip()
                 dictEntry = line.split(": ")
-                checkedEntry = checkReqs(dictEntry, dictionary)
+                checkedEntry = checkReqs(dictEntry)
                 dictionary[checkedEntry[0]] = checkedEntry[1]
+
+
         fileObj.close()
 
         for entry in required:
@@ -25,6 +29,10 @@ def makeFractal(path):
         if dictionary['type'] == 'julia':
             for entry in juliaReq:
                 if entry not in dictionary:
+                    raise NotImplementedError("Invalid fractal configuration file")
+        else:
+            for entry in juliaReq:
+                if entry in dictionary:
                     raise NotImplementedError("Invalid fractal configuration file")
 
         dictionary = updateDictionary(dictionary, path)
@@ -43,7 +51,7 @@ def defaultFractal():
     print("Creating a default fractal")
     dictionary = {
         'type': 'mandelbrot',
-        'pixels': 640,
+        'pixels': 320,
         'axislength': 4.0,
         'pixelsize': 0.00625,
         'iterations': 100,
@@ -53,34 +61,24 @@ def defaultFractal():
     }
     return dictionary
 
-def checkReqs(dictEntry, dictionary):
+def checkReqs(dictEntry):
     if dictEntry[0].lower() == 'type' and not dictEntry[1].isnumeric():
         return 'type', dictEntry[1].lower()
-    elif dictEntry[0].lower() == 'pixels' and dictEntry[1].isnumeric() and not dictEntry[1].__contains__("."):
-        return'pixels', int(dictEntry[1])
-    elif dictEntry[0].lower() == 'centerx' and dictEntry[1].isnumeric():
-        return 'centerX', float(dictEntry[1])
-    elif dictEntry[0].lower() == 'centery' and dictEntry[1].isnumeric():
-        return 'centerY', float(dictEntry[1])
-    elif dictEntry[0].lower() == 'axislength' and dictEntry[1].isnumeric():
-        return 'axislength', float(dictEntry[1])
-    elif dictEntry[0].lower() == 'iterations' and dictEntry[1].isnumeric() and not dictEntry[1].__contains__("."):
-        return 'iterations', int(dictEntry[1])
-    if dictionary['type'] == 'julia':
-        return checkJuliaReqs(dictEntry)
+    elif dictEntry[0].lower() == 'pixels' or 'iterations' and dictEntry[1].isnumeric():
+        return dictEntry[0].lower(), int(dictEntry[1])
+    elif dictEntry[0].lower() == 'centerx' or dictEntry[0].lower() == 'centery' or dictEntry[0].lower() == 'axislength':
+        try:
+            return dictEntry[0].lower(), float(dictEntry[1])
+        except ValueError:
+            print("Invalid configuration file")
+    elif dictEntry[0].lower() == 'creal' or 'cimag' and dictEntry[1].isnumeric():
+        return dictEntry[0].lower(), float(dictEntry[1])
     else:
         raise NotImplementedError("Invalid fractal configuration file")
 
-def checkJuliaReqs(dictEntry):
-    if dictEntry[0].lower() == 'creal' and dictEntry[1].isnumeric():
-        return 'creal', float(dictEntry[1])
-    elif dictEntry[0].lower() == 'cimag' and dictEntry[1].isnumeric():
-        return 'cimag', float(dictEntry[1])
-    else:
-        raise NotImplementedError("Invalid fractal configuration file")
 
 def updateDictionary(dictionary, path):
-    return {
+    updatedDict = {
         'type': dictionary['type'],
         'pixels': dictionary['pixels'],
         'axislength': dictionary['axislength'],
@@ -94,5 +92,8 @@ def updateDictionary(dictionary, path):
         # This splits the path into its directories, and takes the last one (the file name) and splits it on "." to get rid
         # of the current file type ending to replace it with png
     }
-
+    if updatedDict['type'] == 'julia':
+        updatedDict['creal'] = dictionary['creal']
+        updatedDict['cimag'] = dictionary['cimag']
+    return updatedDict
 
